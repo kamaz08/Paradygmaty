@@ -1,0 +1,10 @@
+declare
+proc {Permutation L}
+   case L of nil then skip
+   [] X|Xs then {Browse X} {Permutation Xs}
+   end
+end
+
+X=[1 2 3 4]
+
+{Permutation X}

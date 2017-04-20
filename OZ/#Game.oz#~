@@ -1,0 +1,4 @@
+declare
+proc {GamePlayer Name Number List}
+   case List of
+      H|T then if(H/=Number) then Num

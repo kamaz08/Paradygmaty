@@ -1,0 +1,22 @@
+declare
+fun {Player Name Entry}
+   case Entry
+   of H|T then
+      {Delay 1000}
+      {Browse Name#H}
+      if (H=='ping') then
+	 'pong'|{Player Name T}
+      else
+	 'ping'|{Player Name T}
+      end
+   end
+end
+
+declare
+proc {Game Pl1 Pl2}
+   local P2 in
+   thread P1 = {Player Pl1 P2} end
+   thread P2 = 'ping'|{Player Pl2 P1} end
+end
+
+{Game 'ziom' 'niezxiom'}
