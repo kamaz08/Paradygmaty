@@ -1,0 +1,75 @@
+(define card
+	(lambda (lista) (car (cdr lista))))
+
+(define cart
+	(lambda (lista) (car (cdr (cdr lista)))))
+
+(define rozpatrz_jeden
+	(lambda (wyr x)
+		(if (equal? wyr x)
+			1
+			0
+		)))
+
+(define rozpatrz_trzy
+	(lambda (wyr x)
+		(cond	((equal? (card wyr) '+)
+				(list 	(pochodna (car wyr) x)
+					'+
+					(pochodna (cart wyr) x)
+				)
+			)
+			((equal? (card wyr) '-)
+				(list 	(pochodna (car wyr) x)
+					'-
+					(pochodna (cart wyr) x)
+				)
+			)
+			((equal? (card wyr) '*)
+				(list
+					(list	(pochodna (car wyr) x)
+						'*
+						(cart wyr)
+					)
+					'+
+					(list	(car wyr)
+						'*
+						(pochodna (cart wyr) x)
+					)
+				)
+			)
+			((equal? (card wyr) '/)
+				(list
+					(list
+						(list	(pochodna (car wyr) x)
+							'*
+							(cart wyr)
+						)
+						'-
+						(list	(car wyr)
+							'*
+							(pochodna (cart wyr) x)
+						)
+					)
+					'/
+					(list
+						(cart wyr)
+						'*
+						(cart wyr)
+					)
+				)
+			)
+		)
+	)
+)
+
+(define pochodna
+	(lambda (wyr x)
+		(if 	(pair? wyr)
+			(rozpatrz_trzy wyr x)
+			(rozpatrz_jeden wyr x)
+		)
+	)
+)
+
+(pochodna '((x * x) + (x + y) 'x)

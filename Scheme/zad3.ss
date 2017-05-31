@@ -1,0 +1,63 @@
+(define daj_jedynki
+	(lambda (a)
+		(if (null? a)
+			()
+			(cons (list (car a)) (daj_jedynki (cdr a))))))
+
+(define daj_dwojki
+	(lambda (a b)
+		(if (null? b)
+			()
+			(if (list? a)
+				(cons	(append a (list (car b)))
+					(daj_dwojki a (cdr b)))
+				(cons	(list a (car b))
+					(daj_dwojki a (cdr b)))
+			)
+		)
+	)
+)
+
+(define car2
+	(lambda (lista)
+		(car (cdr lista))))
+
+(define ogon_ogona
+	(lambda (lista)
+		(cdr (cdr lista))))
+
+(define splot2
+	(lambda (a b)
+		(if (null? a)
+			()
+			(append
+				(daj_dwojki (car a) b)
+				(splot2 (cdr a) b)
+			)
+		)
+	)
+)
+
+(define splot3
+	(lambda (lista)
+		(cond 	((null? lista)
+			())
+			((null? (cdr lista))
+			(daj_jedynki (car lista)))
+			((null? (ogon_ogona lista))
+			(splot2 (car lista) (car2 lista)))
+			(else
+				(splot3 	(cons 	(splot2 (car lista) (car2 lista))
+						(ogon_ogona lista)
+					) 
+				)
+			)	
+		)
+	)
+)
+
+(define splot
+	(lambda lista
+		(splot3 lista)))
+
+(splot '(1 2) '(3 4) '(5 6))

@@ -1,0 +1,10 @@
+(define mymap
+	(lambda (fun lista)
+		(if (null? lista)
+			()
+			(cons	(fun (car lista))
+				(mymap fun(cdr lista))
+			)
+		)
+	)
+)
