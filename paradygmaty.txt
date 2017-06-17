@@ -1,0 +1,78 @@
+## OZ ##
+example function 
+
+declare
+fun {Reverse L}
+   case L
+   of nil then nil
+   [] X|Xs then {Append{Reverse Xs}|[X]}
+   end
+end
+X = {Reverse [1 2 3 4 5 6]}
+{Browse X}
+
+declare
+fun {FoldReverse L}
+   {FoldL L fun {$ A B} B|A end nil} 
+end
+
+## SHEME ##
+(cdr '(1 2 3)) => (2 3)
+(car '(1 2 3)) => 1
+
+lambda 
+(define mymap
+	(lambda (fun lista)
+		(if (null? lista)
+			()
+			(cons	(fun (car lista))
+				(mymap fun(cdr lista))
+			)
+		)
+	)
+)
+
+(mymap (lambda (x) (+ 1 x)) '(0 2 4 6))
+
+
+## HASKEL ## 
+
+dotp :: Num a => [a] -> [a] -> a 
+dotp a b  = sum (zipWith (*) a b)
+ 
+main = print $ dotp [1, 3, -5] [4, -2, -1]
+
+split :: [a] -> ([a], [a])
+split myList = splitAt (((length myList) + 1) `div` 2) myList
+
+## ERLANG##
+
+-module(z1).
+-export([pythag/1]).
+
+pythag(D) ->
+	[ 	{A, B, C} ||
+	 	A <- lists:seq(1, D div 2),
+		B <- lists:seq(1, A),
+		C <- lists:seq(trunc(math:sqrt(A * A + B * B)), trunc(math:sqrt(A * A + B * B))),
+		A + B + C == D,
+		A * A + B * B == C * C
+	].
+
+## PROLOG ##
+
+k(a, b). k(a, d). k(b, c). k(b, e). k(c, f). k(d, e). k(d, g). k(e, f). k(e, h). k(f, i). k(g, h). k(h, i).
+
+is_path(X, Y) :- path(X, Y, []).
+
+path(X, X, _).
+
+path(X, Y, _) :- k(X, Y).
+
+path(X,Y,Path) :- 	k(X, Z),
+		  			\+ member(Z, Path),
+		  			path(Z, Y, [X | Path]).
+
+jednokrotnie(X,L1):- select(X,L1,L2), \+ (select(X,L2,_)).
+dwukrotnie(X,L1):- select(X,L1,L2), jednokrotnie(X,L2).
+
